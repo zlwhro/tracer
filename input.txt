@@ -1,0 +1,8 @@
+../../fuzz/hoonzip/hoonzip
+../../fuzz/coffee.zip
+1
+main
+0
+0
+100
+/tmp
