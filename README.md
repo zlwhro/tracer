@@ -84,6 +84,7 @@ hoonzip의 -l 옵션으로 압축 데이터가 저장된 오프셋과 압축된 
 tracer의 대부분의 작업은 메모리 내에서만 이루어집니다. 파일 I/O를 실행할 때는 프로그램을 처음 로드할 때와 충돌이 발생한 파일을 저장할 때 뿐입니다. 이 방법은 프로그램을 매번 실행하고 파일 I/O를 매번 실행하는 것보다 빠릅니다.
 
 # referrence
+
 Fuzz like a caveman
 https://blog.tartanllama.xyz/writing-a-linux-debugger-setup/
 
