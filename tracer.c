@@ -205,10 +205,6 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
                     struct user_regs_struct crash_regs;
                     int ret = WSTOPSIG(status);
 
-                    //충돌 시점의 rip 레지스터 저장
-                    ptrace(PTRACE_GETREGS, pid, 0, &crash_regs);
-                    printf("crash rip %lx\n",crash_regs.rip);
-
                     // save_crash 함수로 rip 주소 변경
                     // 충돌이 발생한 파일을 저장한다.
                     cur_regs.rip = hook_base + save_crash;
