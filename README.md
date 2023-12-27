@@ -87,7 +87,7 @@ tracer의 대부분의 작업은 메모리 내에서만 이루어집니다. 파�
 # referrence
 
 Fuzz like a caveman
-[https://blog.tartanllama.xyz/writing-a-linux-debugger-setup/](https://h0mbre.github.io/Fuzzing-Like-A-Caveman/)
+https://h0mbre.github.io/Fuzzing-Like-A-Caveman/
 
 Writing a Linux Debugger
 https://blog.tartanllama.xyz/writing-a-linux-debugger-setup/
