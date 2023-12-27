@@ -35,9 +35,9 @@ tracer는 원하는 함수만 퍼징하기 위해서 원하는 지점에서 스�
 
 3 번을 선택하면 퍼징할 바이너리의 심볼테이블을 읽고 심볼의 이름과 오프셋이 표시됩니다.
 
-![image](https://github.com/zlwhro/tracer/assets/113174616/62a68e9a-c499-4b04-bedd-a286e478a81e)
+![image](https://github.com/zlwhro/tracer/assets/113174616/3f65c220-8b46-4042-a96b-4acd5ccf0b70)
 
-퍼징할 함수는 ZIP_Decompress입니다. hoonzip에서 압축해제를 담당하는 함수입니다. 그외에 함수도 선택할 수 있지만 스냅샷 구현이 부족해 제대로 동작하지 않습니다.
+퍼징할 함수는 ZIP_Decompress입니다. hoonzip에서 압축해제를 담당하는 함수입니다. 다른 함수도 선택할 수 있지만 스냅샷 구현이 부족해 제대로 동작하지 않습니다.
 
 ![image](https://github.com/zlwhro/tracer/assets/113174616/2717bf04-e9e3-4dc2-826a-dae970adce14)
 
