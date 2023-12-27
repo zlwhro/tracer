@@ -21,7 +21,7 @@ tracer를 실행하면 먼저 퍼징할 바이너리 경로를 입력합니다. 
 ## 4. seed 파일 입력
 ![image](https://github.com/zlwhro/tracer/assets/113174616/cdde289e-dd88-454d-b026-31d9842e9c1d)
 
-그 다음 시도로 사용할 파일의 위치를 입력해주세요
+그 다음 시드로 사용할 파일의 위치를 입력해주세요
 
 ## 5. 스냅샷 포인트 지정
 ![image](https://github.com/zlwhro/tracer/assets/113174616/e0861022-7c62-4b8c-b1a1-958f10fd2d92)
