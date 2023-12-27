@@ -50,7 +50,8 @@ tracer는 원하는 함수만 퍼징하기 위해서 원하는 지점에서 스�
 ## 6. mutation 설정
 ![image](https://github.com/zlwhro/tracer/assets/113174616/216345a0-c9c1-4606-a12a-ed099244399e)
 
-이제 mutation을 설정합니다. mutation_idx 와 mutation_size를 선택해주세요 mutation_idx는 파일에서 mutation을 적용할 위치 mutation_size는 그 크기를 말합니니다.
+이제 mutation을 설정합니다. mutation_idx 와 mutation_size를 선택해주세요 mutation_idx는 파일에서 mutation을 적용할 위치 mutation_size는 그 크기를 말합니다.
+
 예를 들어 mutation_idx 가 70이고 mutation_size 가 10000 이면 전체 파일에서 70 ~ 10070 위치에 있는 바이트 중 %1가 랜덤으로 변형됩니다.
 
 지금은 압축 해제를 담당하는 ZIP_Decompess 함수만 퍼징할 것이기 때문에 zip 파일에서 헤더 부분은 그대로 두고 실제 압축 데이터가 저장된 부분만 변형해야합니다.
