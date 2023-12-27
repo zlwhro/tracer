@@ -9,7 +9,7 @@
 ## 2. 테스트 바이너리 hoonzip 준비
 ![image](https://github.com/zlwhro/tracer/assets/113174616/6b234ecf-c172-499c-98f9-e2b55644bd16)
 
-tracer로 테스트할 바이너리는 hoonzip입니다. 깃허브 리포지터리에서 주소가 있습니다.
+tracer로 테스트할 바이너리는 hoonzip입니다. 깃허브 리포지터리 주소가 있습니다.
 https://github.com/zlwhro/hoonzip.git
 
 ## 3. 바이너리 경로 입력
