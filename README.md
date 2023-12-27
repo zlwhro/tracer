@@ -1,5 +1,5 @@
 # tracer
-압축 해제프로그램 hoonzip을 퍼징하기 위해 만든 퍼저 tracer입니다.
+압축 해제프로그램 **hoonzip**을 퍼징하기 위해 만든 퍼저 **tracer**입니다.
 # 사용법
 ## 1. 소스코드 빌드
 ![image](https://github.com/zlwhro/tracer/assets/113174616/3fc33aba-930e-4049-82ba-3b03c81eeab1)
@@ -37,7 +37,7 @@ tracer는 원하는 함수만 퍼징하기 위해서 원하는 지점에서 스�
 
 ![image](https://github.com/zlwhro/tracer/assets/113174616/3f65c220-8b46-4042-a96b-4acd5ccf0b70)
 
-퍼징할 함수는 ZIP_Decompress입니다. hoonzip에서 압축해제를 담당하는 함수입니다. 다른 함수도 선택할 수 있지만 스냅샷 구현이 부족해 제대로 동작하지 않습니다.
+퍼징할 함수는 **ZIP_Decompress**입니다. hoonzip에서 압축해제를 담당하는 함수입니다. 다른 함수도 선택할 수 있지만 스냅샷 구현이 부족해 제대로 동작하지 않습니다.
 
 ![image](https://github.com/zlwhro/tracer/assets/113174616/2717bf04-e9e3-4dc2-826a-dae970adce14)
 
@@ -50,7 +50,7 @@ tracer는 원하는 함수만 퍼징하기 위해서 원하는 지점에서 스�
 ## 6. mutation 설정
 ![image](https://github.com/zlwhro/tracer/assets/113174616/216345a0-c9c1-4606-a12a-ed099244399e)
 
-이제 mutation을 설정합니다. mutation_idx 와 mutation_size를 선택해주세요 mutation_idx는 파일에서 mutation을 적용할 위치 mutation_size는 그 크기를 말합니다.
+이제 **mutation**을 설정합니다. **mutation_idx** 와 **mutation_size**를 선택해주세요 mutation_idx는 파일에서 mutation을 적용할 위치 mutation_size는 그 크기를 말합니다.
 
 예를 들어 mutation_idx 가 70이고 mutation_size 가 10000 이면 전체 파일에서 70 ~ 10070 위치에 있는 바이트 중 %1가 랜덤으로 변형됩니다.
 
