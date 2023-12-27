@@ -42,15 +42,18 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         // 후킹 라이브러리 삽입
         strcat(preload, "/fuzzhook.so");
 
-        //자식 프로세스의 표준출력, 표준 에러 무시
+        
         const char * env[]= {preload, NULL};
+        char *const *envp = (char *const *)env;
+
+        //자식 프로세스의 표준출력, 표준 에러 무시
         int dev_null = open("/dev/null", O_RDWR);
         if(dev_null == -1)
             puts("????");
         dup2(dev_null, 1);
         dup2(dev_null, 2);
         //타겟 프로그램 실행
-        execve(fullpath,argv, env);
+        execve(fullpath,argv, envp);
     }
     else
     {
