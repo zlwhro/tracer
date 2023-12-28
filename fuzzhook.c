@@ -28,13 +28,18 @@ int snapshot_saved = 0;
 int file_idx = 0;
 int saved_file_idx;
 
+// mutation 위치
 int mutation_idx = 70;
+// mutation 크기
 int mutation_size = 4983833;
+// mutation 비율
 float mutation_ratio = 0.01;
 
 int seed_set = 0;
 
+//스냅샷 저장 이후 할당한 힙 목록
 void* heap_list[100];
+//스냅샷 저장 이후 할당한 힙 갯수
 int heap_idx=0;
 
 char crash_file[1000];
@@ -133,9 +138,7 @@ void* malloc(size_t size)
 
     //스냅샷을 저장하기 전까지는 기존 malloc과 같이 동작
     if(!snapshot_saved)
-    {
-        return real_malloc(size);
-    }
+    	return real_malloc(size);
     else
     {
         //스냅샷을 저장한 이후로 할당된 힙 기억하기
@@ -192,20 +195,24 @@ void snapshot_restore()
     file_idx = saved_file_idx;
 }
 
-// 지정한 범위의 바이트 중 1 퍼센트를 랜덤으로 변경
+// mutation 비율
+float mutation_ratio = 0.01;
+
+//자식 프로세스에서 직접 mutation 수행
 void mutation()
 {
     int msiz = mutation_size;
+    // mutation_size가 0이면 mutation_idx에서 파일의 끝까지 mutation 수행
     if(msiz == 0)
     {
         msiz = file_size - mutation_idx;
-        fprintf(stderr,"msiz %d\n",msiz);
     }
 
     memcpy(&mutated[mutation_idx], &original[mutation_idx], msiz);
     int mutation_time = (int)(mutation_ratio * msiz);
 
     // 현재 시간을 시드로 설정
+    // 시드를 설정하지 않으면 rand()는 매번 같은 수열을 리턴한다.
     if(!seed_set)
     {
         srand(time(NULL));

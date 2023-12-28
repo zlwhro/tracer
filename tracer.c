@@ -80,7 +80,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         ptrace(PTRACE_CONT, pid, 0, 0);
         waitpid(pid, &status, 0);
 
-        //스냅샷 포인트까지 실행 도중 프로세스 종료
+        //스냅샷 포인트까지 실행하지 못하고 프로세스 종료
         if(WIFEXITED(status))
         {
             puts("child exited why?");
@@ -113,7 +113,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         unsigned long mutation_idx, mutation_size, crash_file;
  
         //스냅샷 포인트를 함수 이름으로 설정하면 자동으로 리턴 주소를 restore point에 추가
-        //rsp 레지스터가 가리키는 주소를 읽는다.
+        //rsp 레지스터가 가리키는 주소를 읽는다. 그 위치에 리턴 주소가 저장되어 있다.
         if(restore_return)
         {
             retrun_addr = get_qword(pid, saved_regs.rsp);
@@ -121,7 +121,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
             breakpoint bp_restore1 = {retrun_addr, 0, 0 };
             set_breakpoint(pid, &bp_restore1);
         }
-        //직접 오프셋을 입력해서 restore point를 설정한 경우
+        //직접 오프셋을 입력해서 restore point를 설정한 경우 restore point도 직접 입력한 주소로 설정
         else
         {
             breakpoint bp_restore1 = {restore_point + base_addr, 0, 0 };
@@ -136,7 +136,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         //후킹 라이브러리 베이스 주소 구하기
         hook_base = get_base(pid, "fuzzhook.so");
 
-        //필요한 심볼의 오프셋을 읽는다.
+        //후킹 라이브러리에서 필요한 심볼의 오프셋을 읽는다.
         file_idx = symbol_lookup("file_idx", hook_symbols);
         saved_file_idx = symbol_lookup("saved_file_idx", hook_symbols);
         snapshot_saved = symbol_lookup("snapshot_saved", hook_symbols);
@@ -147,6 +147,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         crash_file = symbol_lookup("crash_file", hook_symbols);
         
         //fuzz_setup 주소 저장
+        //fuzz_setup은 스냅샷을 복구하고(단 레지스터는 부모 프로세스가 ptrace로 복구해준다.) muation을 수행한다.
         mutation_regs.rip = hook_base+fuzz_setup;
 
         if(file_idx == 0 || saved_file_idx == 0 || snapshot_saved == 0 || fuzz_setup == 0 || save_crash == 0)
@@ -265,7 +266,7 @@ int main(int argc, char **argv)
 {
     char path[256];
 
-    //심볼 주소르르 저장할 구조체
+    //심볼 주소르 저장할 구조체
     SymbolArr vuln_symbols;
     SymbolArr hook_symbols;
 

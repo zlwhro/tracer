@@ -40,20 +40,25 @@ int dump_symbol(const char* filename, SymbolArr *sarr)
 
     char temp[100];
 
-    //read all
+    //파일 전체 읽기
+
+    //파일 크기 확인
     fseek(hook, 0, SEEK_END);
     filesize = ftell(hook);
+    //파일 크기만큼 메모리 할당하고 파일 전체 읽기
     fseek(hook, 0, SEEK_SET);
     data = malloc(filesize+1);
     fread(data, filesize, 1, hook);
     fclose(hook);
 
+    //ELF 헤더를 읽는다.
     elf_header = (Elf64_Ehdr *)data;
     
-    //section header table
+    //섹션 헤더 테이블 오프셋 확인
+    //해당 테이블은 모든 섹션 헤더의 오프셋이 저장되어 있다.
     section_header = (Elf64_Shdr*)(data + elf_header->e_shoff);
 
-    //shstrtab 오프셋 확인
+    //shstrtab 오프셋 확인 섹션의 이름이 저장되어 있다.
     for(int i=0;i<elf_header->e_shnum;++i)
     {
         if(section_header[i].sh_type == SHT_STRTAB)
@@ -65,6 +70,7 @@ int dump_symbol(const char* filename, SymbolArr *sarr)
     }
 
     //각 섹션의 오프셋 확인
+    // 필요한 섹션은 .strtab, .dynstr, .dynsym, symtab, .rela.plt, .plt.sec
     for(int i=0;i<elf_header->e_shnum;++i)
     {
         strcpy(temp, shstr + section_header[i].sh_name);
@@ -90,26 +96,27 @@ int dump_symbol(const char* filename, SymbolArr *sarr)
         }
         else if(strcmp(temp, ".plt.sec") == 0)
             plt_sec = section_header[i].sh_offset;
-        
     }
     //심볼 테이블 읽기
     sarr->arr = malloc(sizeof(ELF_Symbol) * sym_num);
     sarr->size = 0;
     for(int i=0;i<sym_num;++i)
     {
-        long val = symtbl[i].st_value;
-        char info = symtbl[i].st_info;
-        //심볼을 읽고 스트링 테이블에서 이름 확인
+        long val = symtbl[i].st_value; // 심볼의 주소
+        //스트링 테이블에서 이름 확인
         if(val != 0)
         {
             //주소와 이름 저장
             int cur = sarr->size;
             sarr->arr[cur].offset = val;
+            //st_name은 .strtab에서 심볼 이름이 저장된 오프셋을 나타낸다.
             strcpy(sarr->arr[cur].name, strtbl + symtbl[i].st_name);
             sarr->size += 1;
         }
     }
-    //plt 읽기 
+    // rela.plt 읽기
+    // 실행시점에 주소가 정해지는 심볼들의 relocation 정보가 저장되어 있다.
+    // 라이브러리 함수들의 plt 엔트리 주소를 저장하기 위해서다. 
     for(int i=0;i<rela_plt_num;++i)
     {
         long name = (rela_plt[i].r_info) >> 32;
