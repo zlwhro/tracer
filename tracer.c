@@ -416,7 +416,7 @@ int main(int argc, char **argv)
 
     // 반복 횟수 설정 
     puts("================================================================");
-    puts("how many interation do you want?");
+    puts("how many iteration do you want?");
     printf("iter: ");
     scanf("%d", &interation);
 
