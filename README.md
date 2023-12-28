@@ -62,7 +62,8 @@ tracer는 원하는 함수만 퍼징하기 위해서 원하는 지점에서 스�
 hoonzip의 -l 옵션으로 압축 데이터가 저장된 오프셋과 압축된 크기를 알 수 있습니다. 한번 자신이 가진 다른 zip 파일로 시험해 보세요
 
 ## 7. 반복횟수 설정
-![image](https://github.com/zlwhro/tracer/assets/113174616/57ff9733-be5c-4b2c-815f-e2ef4173cd9c)
+
+![image](https://github.com/zlwhro/tracer/assets/113174616/10c9a93d-f82d-4a20-b916-34e183b601c7)
 
 이제 몇번을 반복할지 입력합니다. 저는 1000번 반복해 보겠습니다.
 
