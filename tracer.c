@@ -55,6 +55,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         //타겟 프로그램 실행
         execve(fullpath,argv, envp);
     }
+    //부모 프로세스
     else
     {
         int status;
@@ -76,7 +77,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         //스냅샷 포인트에 중단점 설정
         set_breakpoint(pid, &bp_snap);
        
-
+        //중단점까지 실행
         ptrace(PTRACE_CONT, pid, 0, 0);
         waitpid(pid, &status, 0);
 
@@ -136,7 +137,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         //후킹 라이브러리 베이스 주소 구하기
         hook_base = get_base(pid, "fuzzhook.so");
 
-        //후킹 라이브러리에서 필요한 심볼의 오프셋을 읽는다.
+        //후킹 라이브러리에서 필요한 심볼의 오프셋을 읽는다. 아래 심볼들은 스냅샷 복구와 muation에 사용할 변수와 함수다.
         file_idx = symbol_lookup("file_idx", hook_symbols);
         saved_file_idx = symbol_lookup("saved_file_idx", hook_symbols);
         snapshot_saved = symbol_lookup("snapshot_saved", hook_symbols);
@@ -145,6 +146,7 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
         mutation_idx = symbol_lookup("mutation_idx", hook_symbols);
         mutation_size = symbol_lookup("mutation_size", hook_symbols);
         crash_file = symbol_lookup("crash_file", hook_symbols);
+        
         
         //fuzz_setup 주소 저장
         //fuzz_setup은 스냅샷을 복구하고(단 레지스터는 부모 프로세스가 ptrace로 복구해준다.) muation을 수행한다.
@@ -158,10 +160,17 @@ int do_fuzz(unsigned long snapshot_point, unsigned long restore_point, SymbolArr
 
         // 파일 오프셋 저장
         // fread나 fseek를 실행하면 파일 오프셋이 변경된다. 파일 오프셋을 저장한다. 
+
+        // 현재 파일 오프셋 읽기
         int snap_idx = get_dword(pid, hook_base+file_idx);
+
+        // saved_file_idx에 저장
         set_dword(pid, hook_base + saved_file_idx, snap_idx);
+
+        // snapshot_saved에 1 저장 스냅샷이 저장되었다는표시다.
         set_dword(pid, hook_base + snapshot_saved, 1);
 
+        // mutation 설정
         set_dword(pid, hook_base + mutation_idx, mut_idx);
         set_dword(pid, hook_base + mutation_size, mut_size);
 

@@ -195,8 +195,6 @@ void snapshot_restore()
     file_idx = saved_file_idx;
 }
 
-// mutation 비율
-float mutation_ratio = 0.01;
 
 //자식 프로세스에서 직접 mutation 수행
 void mutation()
